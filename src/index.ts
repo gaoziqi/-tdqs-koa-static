@@ -18,16 +18,22 @@ export interface IOption extends send.SendOptions {
 
 export function koaStatic(staticPath, option?: IOption): Middleware {
   require('assert')(staticPath, 'staticPath directory is required');
+  const opt = Object.assign(
+    {
+      prefixUrl: '',
+      redirectUrl: '/index.html',
+    },
+    option,
+  );
+  opt.root = staticPath;
   return async (ctx, next) => {
     await next();
-    const opt = Object.assign(
-      {
-        prefixUrl: '',
-        redirectUrl: '/index.html',
-      },
-      option,
-    );
-    opt.root = staticPath;
+    if (ctx.method !== 'HEAD' && ctx.method !== 'GET') {
+      return;
+    }
+    if (ctx.body !== null || ctx.status !== 404) {
+      return;
+    }
     const redirect = `${opt.prefixUrl}${opt.redirectUrl}`;
     const url = ctx.path.slice(opt.prefixUrl.length);
     if (!url || url[0] !== '/' || url === '/') {
