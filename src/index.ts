@@ -2,7 +2,7 @@
  * @Author: gzq
  * @Date: 2018-12-19 14:05:37
  * @Last Modified by: gzq
- * @Last Modified time: 2018-12-19 14:11:55
+ * @Last Modified time: 2018-12-19 14:48:20
  * different to koa-static with prefixUrl and redirectUrl
  */
 
@@ -31,7 +31,7 @@ export function koaStatic(staticPath, option?: IOption): Middleware {
     if (ctx.method !== 'HEAD' && ctx.method !== 'GET') {
       return;
     }
-    if (ctx.body !== null || ctx.status !== 404) {
+    if (ctx.body || ctx.status !== 404) {
       return;
     }
     const redirect = `${opt.prefixUrl}${opt.redirectUrl}`;
