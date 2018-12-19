@@ -11,9 +11,9 @@ import * as send from 'koa-send';
 
 export interface IOption extends send.SendOptions {
   /** url前缀 */
-  prefixUrl: string;
+  prefixUrl?: string;
   /** 重定向的url，默认值'/index.html' */
-  redirectUrl: string;
+  redirectUrl?: string;
 }
 
 export function koaStatic(staticPath, option?: IOption): Middleware {
